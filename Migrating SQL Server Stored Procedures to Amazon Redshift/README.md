@@ -3,8 +3,6 @@ The business requirement was to migrate data from an on-premises SQL Server data
 
 To meet this requirement, the solution utilizes a Site-to-Site VPN to securely connect AWS Glue jobs with the on-premises SQL Server, enabling the execution of stored procedures and the direct retrieval of data into AWS. 
 
-# Data Pipeline Architecture
-SQL Server (Source) > Raw Layer > Stage Layer > Analytics Layer > Data Loading Layer > Amazon Redshift (Target)
 ## Raw Layer
 The Raw Layer serves as the entry point for data ingestion, where AWS Glue jobs dynamically execute stored procedures against the SQL Server to extract data. The data extracted is stored in Amazon S3 in two distinct formats: 'latest,' which captures the most recent execution results for operational reporting, and 'snapshot,' which archives historical data to fulfill compliance and auditing needs. For each execution of a stored procedure, logs are generated and stored in a dedicated S3 bucket, capturing the details of the latest execution logs for each stored procedure. This logging mechanism provides visibility into the data extraction process and helps maintain data lineage.
 
@@ -26,6 +24,10 @@ The Data Loading Layer is focused on efficiently loading the transformed data in
 The Step Functions Orchestration layer is responsible for managing and coordinating the entire ETL pipeline from data ingestion to final loading into Amazon Redshift. The orchestration is designed for modularity, scalability, and fault tolerance. The master Step Function controls multiple sub-step functions, each focusing on a specific layer—Raw, Stage, Analytics, and Data Loading.
 
 After each layer completes processing, the master Step Function triggers Glue Crawlers to update the Glue Data Catalog with the newly processed data, ensuring metadata consistency for future steps. Within each sub-step function, parallel AWS Glue jobs are orchestrated by forwarding different JSON API values as job parameters, allowing the same job to process multiple tables from the Glue Data Catalog concurrently. This dynamic orchestration improves efficiency and optimizes resource usage. To enhance observability, Amazon SNS notifications are integrated for real-time monitoring and alerting, providing visibility into job statuses and enabling quick troubleshooting in the event of any failures.
+
+# Data Pipeline Architecture
+SQL Server (Source) > Raw Layer > Stage Layer > Analytics Layer > Data Loading Layer > Amazon Redshift (Target)
+
 <p align="center">
   <img src="https://github.com/user-attachments/assets/fd0801d4-bf2e-4812-a0da-678bb0d3ee79" alt="image">
 </p>
