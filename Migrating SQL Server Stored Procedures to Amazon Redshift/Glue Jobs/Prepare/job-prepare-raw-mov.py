@@ -45,7 +45,7 @@ dyf = glueContext.create_dynamic_frame.from_catalog(
 
 # Extract list with unique values
 df_unique_values_dates = dyf.toDF().select('month_column').distinct()
-list_unique_values_dates = df_unique_values_dates.rdd.map(lambda x: x.aPOG_MesProc).collect()
+list_unique_values_dates = df_unique_values_dates.rdd.map(lambda x: x.month_column).collect()
 
 for u_date in list_unique_values_dates:
     date = datetime.datetime.strptime(str(u_date), "%Y%m")
