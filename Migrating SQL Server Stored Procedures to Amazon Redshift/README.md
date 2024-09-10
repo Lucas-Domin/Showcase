@@ -4,6 +4,7 @@ The business requirement was to migrate data from an on-premises SQL Server data
 To meet this requirement, the solution utilizes a Site-to-Site VPN to securely connect AWS Glue jobs with the on-premises SQL Server, enabling the execution of stored procedures and the direct retrieval of data into AWS. 
 
 # Data Pipeline Architecture
+SQL Server (Source) > Raw Layer > Stage Layer > Analytics Layer > Data Loading Layer > Amazon Redshift (Target)
 ## Raw Layer
 The Raw Layer serves as the entry point for data ingestion, where AWS Glue jobs dynamically execute stored procedures against the SQL Server to extract data. The data extracted is stored in Amazon S3 in two distinct formats: 'latest,' which captures the most recent execution results for operational reporting, and 'snapshot,' which archives historical data to fulfill compliance and auditing needs. For each execution of a stored procedure, logs are generated and stored in a dedicated S3 bucket, capturing the details of the latest execution logs for each stored procedure. This logging mechanism provides visibility into the data extraction process and helps maintain data lineage.
 
