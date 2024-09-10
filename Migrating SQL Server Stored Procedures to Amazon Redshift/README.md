@@ -18,6 +18,9 @@ The Analytics Layer focuses on combining, refining, and structuring data into a 
 
 ## Data Loading Layer
 The Data Loading Layer is focused on efficiently loading the transformed data into Amazon Redshift, ensuring the data warehouse is prepared for high-performance analytical queries. This layer comprises jobs that handle both dimension and fact data loading operations. Dimension table jobs truncate and ingest new data to maintain integrity and accuracy, while fact table jobs are designed to perform incremental loads based on unique date keys. This strategy enables the efficient management of large volumes of historical data, ensuring that the Redshift data warehouse remains current, consistent, and performant.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/f57861cb-bff0-4c6d-8341-0183a4871485" alt="image">
+</p>
 
 ## Step Functions Orchestration
 The Step Functions Orchestration layer is responsible for managing and coordinating the entire ETL pipeline from data ingestion to final loading into Amazon Redshift. The orchestration is designed for modularity, scalability, and fault tolerance. The master Step Function controls multiple sub-step functions, each focusing on a specific layer—Raw, Stage, Analytics, and Data Loading.
