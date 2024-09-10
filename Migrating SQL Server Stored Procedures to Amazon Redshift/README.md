@@ -26,4 +26,6 @@ The Data Loading Layer is focused on efficiently loading the transformed data in
 The Step Functions Orchestration layer is responsible for managing and coordinating the entire ETL pipeline from data ingestion to final loading into Amazon Redshift. The orchestration is designed for modularity, scalability, and fault tolerance. The master Step Function controls multiple sub-step functions, each focusing on a specific layer—Raw, Stage, Analytics, and Data Loading.
 
 After each layer completes processing, the master Step Function triggers Glue Crawlers to update the Glue Data Catalog with the newly processed data, ensuring metadata consistency for future steps. Within each sub-step function, parallel AWS Glue jobs are orchestrated by forwarding different JSON API values as job parameters, allowing the same job to process multiple tables from the Glue Data Catalog concurrently. This dynamic orchestration improves efficiency and optimizes resource usage. To enhance observability, Amazon SNS notifications are integrated for real-time monitoring and alerting, providing visibility into job statuses and enabling quick troubleshooting in the event of any failures.
-
+<p align="center">
+![Architecture](https://github.com/user-attachments/assets/fd0801d4-bf2e-4812-a0da-678bb0d3ee79)
+</p>
