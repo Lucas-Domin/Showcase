@@ -1,0 +1,47 @@
+Modular Data Pipeline Checklist
+
+Step 1: Understand the Overall Pipeline Design
+X Define the ETL process structure (Ingestion, Transformation, Validation, Load/Publish).
+X Identify clear boundaries for each module's responsibilities.
+
+Step 2: Set Up the AWS Environment
+X Create S3 buckets with folders for raw, transformed, and validated data.
+X Register databases and tables in the Glue Data Catalog.
+X Configure IAM roles with least privilege for Glue, Lambda, and Step Functions.
+
+Step 3: Develop Modular Code
+X Write reusable utility functions (e.g., S3 access, table registration).
+X Organize utility functions in a shared library or Lambda Layer.
+X Build ingestion scripts that read raw data and store it in S3.
+X Develop transformation scripts applying business rules and cleansing.
+X Create validation scripts for schema checks, row counts, and null values.
+X Implement publish scripts to load data into Redshift or register it in Athena.
+
+Step 4: Implement Orchestration with Step Functions
+X Design Step Functions workflows for each pipeline stage.
+X Add retry logic and error handling for each step.
+X Include conditional logic for branching based on data quality or business rules.
+X Trigger notifications (via SNS) for critical events or failures.
+
+Step 5: Incorporate Data Quality Checks
+X Validate schemas against the Glue Data Catalog.
+X Perform completeness checks (e.g., row counts, null values).
+X Implement business rule validations for key metrics.
+X Use custom exceptions (e.g., ValidationError, SchemaError) for errors.
+
+Step 6: Build Logging and Monitoring
+X Log execution details for all steps in CloudWatch Logs.
+X Use structured JSON logs for easy querying.
+X Configure CloudWatch Alarms for anomalies or failures.
+X Set up SNS for alert notifications (e.g., email, Slack).
+
+Step 7: Testing and Deployment
+X Create separate environments for development, staging, and production.
+X Test each pipeline step independently.
+X Conduct end-to-end tests before deployment.
+X Monitor Glue and Lambda job costs for optimization.
+
+Step 8: Documentation
+X Write a README for each module (purpose, inputs, outputs).
+X Create a high-level diagram of the pipeline’s architecture and data flow.
+X Document configuration settings and their uses in YAML/JSON.
